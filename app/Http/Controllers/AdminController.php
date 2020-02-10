@@ -1,0 +1,210 @@
+<?php
+
+namespace App\Http\Controllers;
+use\setting;
+use App\Slider;
+use App\Category;
+use App\Photo;
+use App\Profile;
+use App\Promotion;
+use App\User;
+use\DB;
+use Auth;
+use Illuminate\Http\Request;
+
+class AdminController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     public function __construct()
+     {
+         $this->middleware('auth');
+
+         if( Auth::user()){
+            if(Auth::user()->role=='user'){
+              return redirect()->route('home');
+            }
+         }
+
+
+     }
+    public function index(){
+      if( Auth::user()){
+         if(Auth::user()->role=='user'){
+           return redirect()->route('home');
+         }
+      }
+      $settings = DB::table('settings')->find('1');
+      return view('admin.dashboard',compact('settings'));
+    }
+    public function slider(){
+      $sliders = DB::table('sliders')->get();
+      $settings = DB::table('settings')->find('1');
+      return view('admin.slider',compact('settings','sliders'));
+    }
+    public function sliderSave(Request $request){
+      $image=$request->file('slider_image');
+      if ($image) {
+        $image_name = $image->getClientOriginalName();
+        $upload_path = 'images/slider/';
+        $image->move($upload_path, $image_name);
+        $image_url = $upload_path.$image_name;
+        $slider = new Slider;
+        $slider->slider=$image_url;
+        $slider->save();
+      }
+      return back();
+    }
+    public function sliderDelete($id){
+      $slider = Slider::find($id);
+      if(file_exists($slider->slider)){
+        @unlink($slider->slider);
+        }
+       if(!is_null($slider)){
+         $slider->delete();
+       }
+       session()->flash('success','Product Delete Successfully!');
+       return back();
+    }
+
+
+
+
+    public function allPhoto()  {
+      $all_photos = DB::table('photos')->get();
+      $categorys = DB::table('categories')->get();
+      $settings = DB::table('settings')->find('1');
+      return view('admin.all_photo',compact('settings','all_photos','categorys'));
+    }
+    public function myPhoto(){
+      $user_id=Auth::user()->id;
+      $categorys = DB::table('categories')->get();
+      $all_photos = DB::table('photos')->where('user_id',$user_id)->get();
+      $settings = DB::table('settings')->find('1');
+      return view('admin.my_photo',compact('settings','all_photos','categorys'));
+    }
+
+
+
+
+
+    public function category()  {
+      $categorys = DB::table('categories')->get();
+      $settings = DB::table('settings')->find('1');
+      return view('admin.category',compact('settings','categorys'));
+    }
+    public function categorySave(Request $request){
+      $image=$request->file('photo');
+      if ($image) {
+        $image_name = $image->getClientOriginalName();
+        $upload_path = 'images/category/';
+        $image->move($upload_path, $image_name);
+        $image_url = $upload_path.$image_name;
+        $category = new Category;
+        $category->image=$image_url;
+        $category->icon=$image_url;
+        $category->name=$request->name;
+        $category->save();
+      session()->flash('success','Category Add Successfully!');
+      }
+      return back();
+    }
+    public function categoryDelete($id){
+      $category = Category::find($id);
+      if(file_exists($category->image)){
+        @unlink($category->image);
+        }
+       if(!is_null($category)){
+         $category->delete();
+       }
+       session()->flash('danger','Category Delete Successfully!');
+       return back();
+    }
+
+    public function Promotion(){
+      $promotions = DB::table('promotions')->get();
+      $settings = DB::table('settings')->find('1');
+      return view('admin.promotion',compact('settings','promotions'));
+    }
+    public function promotionSave(Request $request){
+      $image=$request->file('photo');
+      if ($image) {
+        $image_name = $image->getClientOriginalName();
+        $upload_path = 'images/promotion/';
+        $image->move($upload_path, $image_name);
+        $image_url = $upload_path.$image_name;
+        $promotion = new Promotion;
+        $promotion->photo=$image_url;
+        $promotion->link=$request->link;
+        $promotion->title=$request->description;
+        $promotion->save();
+      session()->flash('success','Promotion Add Successfully!');
+      }
+      return back();
+    }
+    public function promotionDelete($id){
+      $promotion = Promotion::find($id);
+      if(file_exists($promotion->photo)){
+        @unlink($promotion->photo);
+        }
+       if(!is_null($promotion)){
+         $promotion->delete();
+       }
+       session()->flash('danger','Promotion Delete Successfully!');
+       return back();
+    }
+
+      public function Users()  {
+        $users = DB::table('profiles')
+                    ->select('*')
+                    ->join('users', 'users.id', '=', 'profiles.user_id')
+                    ->get();
+        $settings = DB::table('settings')->find('1');
+        return view('admin.users',compact('settings','users'));
+      }
+
+    public function setting()  {
+        $settings = DB::table('settings')->find('1');
+      return view('admin.setting', ['settings' => $settings]);
+    }
+
+    public function settingUpdate(Request $request){
+      $image=$request->file('logo');
+      if ($image) {
+        $image_name = $image->getClientOriginalName();
+        $upload_path = 'images/logo/';
+        $image->move($upload_path, $image_name);
+        $image_url = $upload_path.$image_name;
+        $data['logo'] = $image_url;
+        $data['header1'] = $request->header1;
+        $data['header2'] = $request->header2;
+        $data['facebook'] = $request->facebook;
+        $data['twitter'] = $request->twitter;
+        $data['youtube'] = $request->youtube;
+        $data['gmail'] = $request->gmail;
+        $data['phone'] = $request->phone;
+        $data['address'] = $request->address;
+        $data['description'] = $request->description;
+        $data['footer'] = $request->footer;
+        DB::table('settings')->where('id',$request->id)->update($data);
+      }else{
+        $data['header1'] = $request->header1;
+        $data['header2'] = $request->header2;
+        $data['facebook'] = $request->facebook;
+        $data['twitter'] = $request->twitter;
+        $data['youtube'] = $request->youtube;
+        $data['gmail'] = $request->gmail;
+        $data['phone'] = $request->phone;
+        $data['address'] = $request->address;
+        $data['description'] = $request->description;
+        $data['footer'] = $request->footer;
+        DB::table('settings')->where('id',$request->id)->update($data);
+      }
+
+      return back();
+    }
+
+}
