@@ -13,7 +13,7 @@
 						      <div class="row">
 						        <div class="col-md-12">
 						          <div class="heading">
-						            <h2>ArtIcles & TIps</h2>
+						            <h2>Recent Pupolar Videos</h2>
 						           </div>
 						          <div class="blog-sec">
 						            <div class="row">
@@ -49,7 +49,7 @@
 													@endphp
 
 						            </div>
-						            <a href="#" title="" class="view-all-blog">View Blog</a>
+						            <a target="_blank" href="https://www.youtube.com/channel/UCqFH5k4uBVijwMSCbApoiJQ" title="" class="view-all-blog">More Videos</a>
 						          </div>
 						        </div>
 						      </div>

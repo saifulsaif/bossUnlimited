@@ -34,8 +34,11 @@
       <li><a href="{{ route('photo') }}" title="">Photos</a></li>
       <li><a href="{{ route('video') }}" title="">Videos</a></li>
       <li><a href="{{ route('promotion') }}" title="">Promition</a></li>
-      <li><a href="{{route('profile')}}" title="">Profile</a></li>
       <li><a href="{{ route('contact') }}" title="">Contact US</a></li>
+      @guest
+      @else
+      <li><a href="{{route('profile')}}" title="">Profile</a></li>
+      @endguest
     </ul>
   </div>
 </div><!-- Responsive-header -->
@@ -85,8 +88,11 @@
           <li><a href="{{ route('photo') }}" title="">Photos</a></li>
           <li><a href="{{ route('video') }}" title="">Videos</a></li>
           <li><a href="{{ route('promotion') }}" title="">Promition</a></li>
-	        <li><a href="{{route('profile')}}" title="">Profile</a></li>
           <li><a href="{{ route('contact') }}" title="">Contact US</a></li>
+          @guest
+          @else
+          <li><a href="{{route('profile')}}" title="">Profile</a></li>
+          @endguest
         </ul>
 			</nav>
 		</div>
