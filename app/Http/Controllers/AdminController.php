@@ -11,6 +11,7 @@ use App\User;
 use\DB;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -161,10 +162,54 @@ class AdminController extends Controller
         $users = DB::table('profiles')
                     ->select('*')
                     ->join('users', 'users.id', '=', 'profiles.user_id')
+                    ->where('users.role','user')
                     ->get();
         $settings = DB::table('settings')->find('1');
         return view('admin.users',compact('settings','users'));
       }
+      public function Admins()  {
+        $users = DB::table('profiles')
+                    ->select('*')
+                    ->join('users', 'users.id', '=', 'profiles.user_id')
+                    ->where('users.role','admin')
+                    ->get();
+        $settings = DB::table('settings')->find('1');
+        return view('admin.admins',compact('settings','users'));
+      }
+      public function saveAdmin(Request $request){
+      $user=User::create([
+            'name' => $request->name,
+            'lname' => $request->lname,
+            'role' => $request->role,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        $data['first_name'] = $request->name;
+        $data['photo'] = 'images/user/user.jpg';
+        $data['last_name'] = $request->lname;
+        $data['email'] = $request->email;
+        $data['facebook'] = '#';
+        $data['twitter'] = '#';
+        $data['youtube'] = '#';
+        $data['linkin'] = '#';
+        $data['user_id'] =$user->id;
+        Profile::create($data);
+        session()->flash('success','Admin Add Successfully!');
+        return back();
+      }
+      public function adminDelete($id){
+          $user = User::find($id);
+          $profile = Profile::where('user_id',$id)->first();
+          if(file_exists($profile->photo)){
+            @unlink($profile->photo);
+            }
+           if(!is_null($profile)){
+             $profile->delete();
+             $user->delete();
+             session()->flash('danger','Admin Delete Successfully!');
+           }
+           return back();
+        }
 
     public function setting()  {
         $settings = DB::table('settings')->find('1');

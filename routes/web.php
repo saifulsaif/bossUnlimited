@@ -1,20 +1,7 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-
 Auth::routes();
-
+ //Start Font end............................
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/photo', 'HomeController@photo')->name('photo');
@@ -25,7 +12,10 @@ Route::get('/user-profile', 'HomeController@profile')->name('profile');
 Route::get('/photos/view/{id}/{category_id}', 'HomeController@photoView')->name('photos');
 Route::post('/search/photo','HomeController@searchPhoto')->name('search.photo');
 
+// End fontend............................
 
+
+// Start Admin site.....................
 
 Route::post('photo/save','UserController@savePhoto')->name('save.photo');
 Route::get('/photo/delete/{id}', 'UserController@deletePhoto')->name('delete.photo');
@@ -49,6 +39,9 @@ Route::post('/admin/category/save', 'AdminController@categorySave')->name('categ
 Route::get('/admin/catgory/delete/{id}', 'AdminController@categoryDelete')->name('category.delete');
 
 Route::get('/admin/users', 'AdminController@Users')->name('users');
+Route::get('/admin/admins', 'AdminController@Admins')->name('admins');
+Route::post('/admin/add/admin', 'AdminController@saveAdmin')->name('add.admin');
+Route::get('/admin/admin/delete/{id}', 'AdminController@adminDelete')->name('admin.delete');
 
 Route::get('/admin/promotion', 'AdminController@Promotion')->name('admin.promotion');
 Route::post('/admin/promotion/save', 'AdminController@promotionSave')->name('promotion.save');
@@ -56,3 +49,5 @@ Route::get('/admin/promotion/delete/{id}', 'AdminController@promotionDelete')->n
 
 Route::get('/admin/setting', 'AdminController@setting')->name('setting');
 Route::post('admin/setting/update','AdminController@settingUpdate')->name('setting.update');
+
+// End Admin Site....................................

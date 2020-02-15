@@ -9,7 +9,9 @@
                    <div class="data-table-list">
                        <div class="basic-tb-hd">
                            <h2>All Users</h2>
+                           <p style="margin-bottom: 0px;float: right;color: white;"><button class="btn notika-btn-teal waves-effect"data-toggle="modal" data-target="#myModaltwo"><i class="notika-icon notika-plus"></i>Add Admin</button>
 
+                           </p>
                        </div>
                        <div class="modal fade" id="myModaltwo" role="dialog">
                                     <div class="modal-dialog modal-sm">
@@ -83,6 +85,16 @@
                                 </div>
 
                        <div class="table-responsive">
+                         @if (Session::has('danger'))
+                           <div class="alert alert-danger">
+                             <p>{{Session::get('danger')}}</p>
+                           </div>
+                         @endif
+                         @if (Session::has('success'))
+                           <div class="alert alert-success">
+                             <p>{{Session::get('success')}}</p>
+                           </div>
+                         @endif
                            <table id="data-table-basic" class="table table-striped">
                                <thead>
                                    <tr>
@@ -106,8 +118,8 @@
                                        <td>{{$user->first_name}}{{$user->last_name}}</td>
                                        <td>{{$user->email}}</td>
                                        <td>{{$user->number}}</td>
-                                       <td><button style="background: #00BCD4;color:white;" class="btn notika-btn-teal waves-effect"><i class="notika-icon notika-edit"></i></button>
-                                        <a href="#"> <button class="btn btn-danger danger-icon-notika waves-effect"><i class="notika-icon notika-trash"></i></button></td>
+                                       <td><button style="background: #00BCD4;color:white;" class="btn notika-btn-teal waves-effect"data-toggle="modal" data-mytitle="{{$user->id}}" id="edit"  data-target="#myModalthree"><i class="notika-icon notika-edit"></i></button>
+                                        <a href="{{url('/admin/admin/delete')}}/{{$user->id}}"> <button class="btn btn-danger danger-icon-notika waves-effect"><i class="notika-icon notika-trash"></i></button></td>
                                    </tr>
                                    @endforeach
                                </tbody>
