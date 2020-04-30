@@ -22,10 +22,12 @@
 							<div class="col-md-4">
 								<div class="row">
 									<div class="col-md-3 col-ms-4">
+										@php $author_id=0; @endphp
 										@foreach($photos as $photo)
 										@php
-										$author_photo= \DB::table('Profiles')->where('user_id',$photo->user_id)->first();
-										$author_follower= DB::table('Followers')->where('followers',$author_photo->user_id)->get();
+										$author_id=$photo->user_id;
+										$author_photo= App\Profile::where('user_id',$photo->user_id)->first();
+										$author_follower= App\Follower::where('followers',$author_photo->user_id)->get();
 										$followers=0;
 										foreach($author_follower as $follow){
 											$followers++;
@@ -58,7 +60,7 @@
 								<div class="single-product-gallery">
 									<ul class="single-product-images">
 
-										<li><img style="padding:9px;" src="{{asset('/'.$photo->photo)}}" alt="" />
+										<li><img style="padding:9px;" src="{{'http://www.freedownloadimage.com/'.$photo->photo}}" alt="" />
 
 										</li>
 								  	</ul>
@@ -67,7 +69,7 @@
 							</div>
 							<div class="col-md-4">
 								<div class="single-product-info-a">
-									<a class="download" href="{{asset('/'.$photo->photo)}}" download title=""><i class="la la-download"></i> 	<span>Free Download</span></a>
+									<a class="download" href="{{'http://www.freedownloadimage.com/'.$photo->photo}}" download title=""><i class="la la-download"></i> 	<span>Free Download</span></a>
 
 								</div>
 							</div>
@@ -83,7 +85,7 @@
 									<div class="col-md-3 col-sm-6 col-xs-12">
 										<div class="product-box">
 											<div class="product-thumb">
-												<img src="{{asset('/'.$photo->photo)}}" alt="" />
+												<img src="{{'http://www.freedownloadimage.com/'.$photo->photo}}" alt="" />
 
 											</div>
 											<h3><a href="{{url('/photos/view')}}/{{$photo->id}}/{{$photo->category_id}}" title="">{{$photo->title}}</a></h3>
@@ -113,11 +115,11 @@
 	</div>
 </section>
 <script>
-			$(document).on('click', '#button', function(e){
-			$.ajax({
-				alert('work');
-
-			});
-			});
+$(document).ready(function() {
+    $("#button").click(function(){
+			var php_var = "<?php echo $author_id; ?>";
+        alert(php_var);
+    });
+});
 </script>
 @endsection

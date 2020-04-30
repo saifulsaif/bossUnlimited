@@ -11,6 +11,8 @@ Route::get('/contact-us', 'HomeController@contact')->name('contact');
 Route::get('/user-profile', 'HomeController@profile')->name('profile');
 Route::get('/photos/view/{id}/{category_id}', 'HomeController@photoView')->name('photos');
 Route::post('/search/photo','HomeController@searchPhoto')->name('search.photo');
+Route::get('/terms-and-condition','HomeController@terms')->name('terms');
+Route::get('/privacy-policy','HomeController@policy')->name('policy');
 
 // End fontend............................
 
@@ -50,4 +52,12 @@ Route::get('/admin/promotion/delete/{id}', 'AdminController@promotionDelete')->n
 Route::get('/admin/setting', 'AdminController@setting')->name('setting');
 Route::post('admin/setting/update','AdminController@settingUpdate')->name('setting.update');
 
+Route::get('/admin/movie', 'AdminController@movie')->name('movie');
+Route::post('admin/movie/update','AdminController@settingMovie')->name('movie.update');
+
+Route::get('/admin/terms', 'AdminController@terms')->name('admin.terms');
+Route::post('admin/terms/update','AdminController@updateTerms')->name('update.terms');
+
+Route::get('/admin/policy', 'AdminController@policy')->name('admin.policy');
+Route::post('admin/policy/update','AdminController@updatePolicy')->name('update.policy');
 // End Admin Site....................................

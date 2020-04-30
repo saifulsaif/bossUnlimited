@@ -38,7 +38,7 @@
 									<div class="row">
 										<div class="col-md-12">
 											<div class="change-my-dp">
-												<img src="{{$profile->photo}}" alt="" />
+												<img height="150" width="150" src="{{$profile->photo}}" alt="" />
 													<input type="file" placeholder="First Name" name="photo" value="{{$profile->photo}}">
 											</div>
 										</div>

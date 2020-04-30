@@ -8,15 +8,28 @@
       <span class="login-btn">LogIn</span>
     </div>
     @else
+    @php
+    $user_id=Auth::user()->id;
+    $profile = App\Profile::where('user_id',$user_id)->first();
+      $points = App\Point::where('user_id',$user_id)->first();
+    @endphp
     <div class="acount-header-btn">
 
-      <span class="register-btn">{{ Auth::user()->name }}</span>
+      <a href="{{route('profile')}}"><img style="border-radius: 50%;height: 55px;width: 55px;margin-top: 16px;margin-left: 10px" src="{{asset('/'.$profile->photo)}}" alt=""></a>
+      <span style="margin: 0px 0px 0 13px;color: #ffffff;font-family: Roboto;font-size: 16px;">{{ Auth::user()->name }}</span>
+      <a href="{{ route('logout') }}" title="Logout"
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+     <img style="border-radius: 50%;height: 40px;width: 40px;margin-top: 24px;margin-left: 10px"  src="{{asset('/images/logo/logout.png')}}">
+      </a>
+      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          @csrf
+      </form>
     </div>
     @endguest
     @guest
     <a href="add-listing.html" title="" class="view-all-blog"><i class="la la-plus"></i>Free Point</a>
     @else
-      <a href="{{ route('logout') }}"  onclick="event.preventDefault();	 document.getElementById('logout-form').submit();" title="" class="add-listing-btn"> Point : 55.64</a>
+       <a href="{{ route('logout') }}"  onclick="event.preventDefault();	 document.getElementById('logout-form').submit();" title="" class="add-listing-btn"> Point : {{$points->point}}</a>
     @endguest
 
     <div class="search-header">
@@ -52,34 +65,27 @@
       <span class="login-btn">LogIn</span>
       <span class="register-btn">Register</span>
     </div>
-    @else
-    <select class="SlectBox">
-      <option data-display="Select">	{{ Auth::user()->name }}</option>
-
-      <a class="dropdown-item" href="{{ route('logout') }}"
-         onclick="event.preventDefault();
-                       document.getElementById('logout-form').submit();">
-        <option href="{{ route('logout') }}" data-display="Select">{{ __('Logout') }}</option>
-      </a>
-
-      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          @csrf
-      </form>
-
-    </select>
-
     @endguest
 		@guest
-		<a href="{{ route('logout') }}"  onclick="event.preventDefault();	 document.getElementById('logout-form').submit();" title="" class="add-listing-btn"><i class="la la-plus"></i> Point : 55.64</a>
+	 <a href="{{ route('logout') }}"  onclick="event.preventDefault();	 document.getElementById('logout-form').submit();" title="" class="add-listing-btn"> <i class="la la-plus"></i>Free Point</a>
 		@else
-    @php
-    $user_id=Auth::user()->id;
-    $profile = DB::table('Profiles')->where('user_id',$user_id)->first();
-    $points = DB::table('Points')->where('user_id',$user_id)->first();
-    @endphp
-		<div class="search-header">
-		<div class="review-avatar"> <a href="{{route('profile')}}"><img style="border-radius: 50%;height: 55px;width: 55px;margin-top: 16px;margin-left: 10px" src="{{$profile->photo}}" alt=""></a> </div>
-	 </div>
+    <div class="search-header">
+         <div class="review-avatar">
+           <a href="{{ route('logout') }}" title="Logout"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+          <img style="border-radius: 50%;height: 40px;width: 40px;margin-top: 24px;margin-left: 10px"  src="{{asset('/images/logo/logout.png')}}">
+           </a>
+           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+               @csrf
+           </form>
+      </div>
+   </div>
+    <div class="search-header">
+      <h3 style="margin: 37px 0px 0 13px;color: #ffffff;font-family: Roboto;font-size: 16px;">{{ Auth::user()->name }}</h3>
+   </div>
+    <div class="search-header">
+    <div class="review-avatar"> <a href="{{route('profile')}}"><img style="border-radius: 50%;height: 55px;width: 55px;margin-top: 16px;margin-left: 10px" src="{{asset('/'.$profile->photo)}}" alt=""></a> </div>
+   </div>
 	 <a href="{{ route('logout') }}"  onclick="event.preventDefault();	 document.getElementById('logout-form').submit();" title="" class="add-listing-btn"> Point : {{$points->point}}</a>
   @endguest
 			<nav class="header-menu">

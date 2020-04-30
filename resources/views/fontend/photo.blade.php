@@ -143,7 +143,9 @@
 														<div class="col-md-4">
 															<select data-placeholder="All Locations" name="category_id" class="chosen-select" tabindex="2">
 																			<option value="All Locations">Select Category</option>
-																			<option value="1">hotel</option>
+																			@foreach($categorys as $cat)
+																			<option value="{{$cat->id}}">{{$cat->name}}</option>
+																			@endforeach
 																	</select>
 														</div>
 														<div class="col-md-4">
@@ -166,27 +168,53 @@
 										<div class="row" style="margin-tor:30px;">
 										 <div class="do-tonight-sec">
 											 <div class="row">
-														 @foreach($photos as $photo)
+											 @foreach($photos as $photo)
 														 <div class="col-md-3">
 															 <div class="dt-box">
-																 <a href="{{url('/photos/view')}}/{{$photo->id}}/{{$photo->category_id}}" title=""><img src="{{asset('/'.$photo->photo)}}" alt="" /><span>{{$photo->title}}</span></a>
+																 <a href="{{url('/photos/view')}}/{{$photo->id}}/{{$photo->category_id}}" title=""><img src="{{asset('/'.$photo->photo)}}" alt="" /></a>
+																 <span>{{$photo->title}}</span>
 															 </div>
 														 </div>
 														 @endforeach
 											 </div>
+											 <!-- <div class="row">
+														 <div class="col-md-3">
+														 @foreach($photos as $photo)
+															 <div class="dt-box">
+																 <a href="{{url('/photos/view')}}/{{$photo->id}}/{{$photo->category_id}}" title=""><img src="{{asset('/'.$photo->photo)}}" alt="" /><span>{{$photo->title}}</span></a>
+															 </div>
+															 @endforeach
+														 </div>
+														 <div class="col-md-3">
+														 @foreach($photos as $photo)
+															 <div class="dt-box">
+																 <a href="{{url('/photos/view')}}/{{$photo->id}}/{{$photo->category_id}}" title=""><img src="{{asset('/'.$photo->photo)}}" alt="" /><span>{{$photo->title}}</span></a>
+															 </div>
+															 @endforeach
+														 </div>
+														 <div class="col-md-3">
+														 @foreach($photos as $photo)
+															 <div class="dt-box">
+																 <a href="{{url('/photos/view')}}/{{$photo->id}}/{{$photo->category_id}}" title=""><img src="{{asset('/'.$photo->photo)}}" alt="" /><span>{{$photo->title}}</span></a>
+															 </div>
+															 @endforeach
+														 </div>
+														 <div class="col-md-3">
+														 @foreach($photos as $photo)
+															 <div class="dt-box">
+																 <a href="{{url('/photos/view')}}/{{$photo->id}}/{{$photo->category_id}}" title=""><img src="{{asset('/'.$photo->photo)}}" alt="" /><span>{{$photo->title}}</span></a>
+															 </div>
+															 @endforeach
+														 </div>
+											 </div> -->
 										 </div>
 									 </div>
 									</div>
 								</div>
 								<div class="pagination">
+
 									<ul>
-										<li class="prev"><a href=""><i class="la  la-arrow-left"></i></a></li>
-										<li><a href="">1</a></li>
-										<li><a class="active" href="">2</a></li>
-										<li><a href="">3</a></li>
-										<li><span class="delimeter">...</span></li>
-										<li><a href="">22</a></li>
-										<li class="next"><a href=""><i class="la  la-arrow-right"></i></a></li>
+											<span style="color:red;">{{$photos->links()}}</span>
 									</ul>
 								</div>
 							</div>

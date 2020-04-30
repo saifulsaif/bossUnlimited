@@ -7,6 +7,7 @@ use App\Category;
 use App\Photo;
 use App\Profile;
 use App\Promotion;
+use App\Movie;
 use App\User;
 use\DB;
 use Auth;
@@ -248,6 +249,56 @@ class AdminController extends Controller
         $data['footer'] = $request->footer;
         DB::table('settings')->where('id',$request->id)->update($data);
       }
+
+      return back();
+    }
+    public function movie()  {
+        $settings = DB::table('settings')->find('1');
+        $movies = DB::table('movie')->find('1');
+      return view('admin.movie', ['movies' => $movies], ['settings' => $settings]);
+    }
+    public function settingMovie(Request $request){
+      $image=$request->file('banner');
+      if ($image) {
+        $image_name = $image->getClientOriginalName();
+        $upload_path = 'images/logo/';
+        $image->move($upload_path, $image_name);
+        $image_url = $upload_path.$image_name;
+        $data['banner'] = $image_url;
+        $data['link'] = $request->link;
+        $data['title'] = $request->title;
+        DB::table('movie')->where('id',$request->id)->update($data);
+      }else{
+        $data['link'] = $request->link;
+        $data['title'] = $request->title;
+        DB::table('movie')->where('id',$request->id)->update($data);
+      }
+
+      return back();
+    }
+
+    public function terms()  {
+        $settings = DB::table('settings')->find('1');
+          $terms = DB::table('terms')->orderBy('id','DESC')->first();
+      return view('admin.terms', ['terms' => $terms], ['settings' => $settings]);
+    }
+    public function updateTerms(Request $request){
+        $data['text'] = $request->text;
+        DB::table('terms')->where('id',$request->id)->update($data);
+        session()->flash('success','Terms And Condition Update Successfully!');
+      return back();
+    }
+
+    public function policy()  {
+        $settings = DB::table('settings')->find('1');
+          $policy = DB::table('policy')->orderBy('id','DESC')->first();
+      return view('admin.policy', ['policy' => $policy], ['settings' => $settings]);
+    }
+    public function updatePolicy(Request $request){
+      $data['text'] = $request->text;
+      DB::table('policy')->where('id',$request->id)->update($data);
+      session()->flash('success','Privacy And Policy Update Successfully!');
+    return back();
 
       return back();
     }

@@ -12,6 +12,7 @@ use App\Profile;
 use App\Promotion;
 use App\Follower;
 use\DB;
+use\Storage;
 class HomeController extends Controller
 {
     /**
@@ -47,20 +48,20 @@ class HomeController extends Controller
     public function photo(){
       $settings = DB::table('settings')->find('1');
       $categorys = DB::table('categories')->get();
-      $photos = DB::table('photos')->orderBy('id', 'DESC')->get();
+      $photos = DB::table('photos')->orderBy('id', 'DESC')->paginate(12);
       return view('fontend.photo',compact('categorys','settings','photos'));
     }
     public function photoView($id,$category_id){
-      $settings = DB::table('settings')->find('1');
-      $photos = DB::table('photos')
-                ->select('*')
-                ->where('photos.id',$id)
-                ->get();
-      $related_photos = DB::table('photos')
-                ->where('category_id',$category_id)
-                ->get();
-      return view('fontend.photo-view',compact('settings','photos','related_photos'));
-    }
+       $settings = DB::table('settings')->find('1');
+       $photos = DB::table('photos')
+                 ->select('*')
+                 ->where('photos.id',$id)
+                 ->get();
+       $related_photos = DB::table('photos')
+                 ->where('category_id',$category_id)
+                 ->get();
+       return view('fontend.photo-view',compact('settings','photos','related_photos'));
+     }
     public function searchPhoto(Request $request){
       $settings = DB::table('settings')->find('1');
       $categorys = DB::table('categories')->get();
@@ -108,8 +109,18 @@ class HomeController extends Controller
       $categorys = DB::table('categories')->get();
       $settings = DB::table('settings')->find('1');
       $photos = DB::table('photos')->where('user_id',$user_id)->get();
-      $profile = DB::table('Profiles')->where('user_id',$user_id)->first();
+      $profile = Profile::where('user_id',$user_id)->first();
       return view('fontend.profile',compact('settings','categorys','photos','profile'));
+    }
+    public function terms(){
+      $terms = DB::table('terms')->orderBy('id','DESC')->first();
+      $settings = DB::table('settings')->find('1');
+      return view('fontend.terms',compact('settings','terms'));
+    }
+    public function policy(){
+      $policy = DB::table('policy')->orderBy('id','DESC')->first();
+      $settings = DB::table('settings')->find('1');
+      return view('fontend.policy',compact('settings','policy'));
     }
 
 }

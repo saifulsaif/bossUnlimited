@@ -1,7 +1,9 @@
 
 @extends('admin.app')
 @section('content')
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <div class="data-table-area">
        <div class="container">
            <div class="row">
@@ -76,14 +78,14 @@
                                        <td>{{$category->created_at}}</td>
                                        <td>{{$category->name}}</td>
                                        <td><img  style="background-color:#00c292;" src="{{asset($category->image)}}" alt="" /></td>
-                                       <td><button style="background: #00BCD4;color:white;" class="btn notika-btn-teal waves-effect"data-toggle="modal" data-mytitle="{{$category->id}}" id="edit"  data-target="#myModalthree"><i class="notika-icon notika-edit"></i></button>
+                                       <td><button style="background: #00BCD4;color:white;" class="btn notika-btn-teal waves-effect"data-toggle="modal" data-id="{{$category->id}}" id="editff"  data-target="#myModal"><i class="notika-icon notika-edit"></i></button>
                                         <a href="{{url('/admin/catgory/delete')}}/{{$category->id}}"> <button class="btn btn-danger danger-icon-notika waves-effect"><i class="notika-icon notika-trash"></i></button></td>
                                    </tr>
                                    @endforeach
                                </tbody>
                            </table>
                        </div>
-                       <div class="modal fade" id="myModalthree" role="dialog">
+                       <div class="modal fade" id="myModal" role="dialog">
                                     <div class="modal-dialog modal-sm">
                                     <form action="{{route('slider.save')}}" method="post" enctype="multipart/form-data">
                                           {{csrf_field() }}
@@ -92,12 +94,12 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-                                                <h2>Add Slide Image</h2>
+                                                <h2>Edit Category</h2>
                                                 <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <div class="form-group float-lb">
                                                             <div class="nk-int-st">
-                                                                <input name="slider_image" type="file" class="form-control">
+                                                                <input name="id" type="text" id="id" class="form-control">
                                                               </div>
                                                         </div>
                                                     </div>
@@ -118,16 +120,24 @@
    </div>
 
    <script>
+   $( document ).ready(function() {
+    console.log( "ready!" );
+     });
 
-     $('#edit').on('show.bs.modal', function (event) {
-         var button = $(event.relatedTarget)
-         var title = button.data('mytitle')
-         console.log(title);
+     $('#editffd').on('show.bs.modal', function (event) {
+        console.log('modal open');
+       var button = $(event.relatedTarget);
+       //var id = button.data('id');
+       var id='22';
+       var modal = $(this);
 
-         var modal = $(this)
-         modal.find('.modal-body #title').val(title);
-         modal.find('.modal-body #des').val(description);
-         modal.find('.modal-body #cat_id').val(cat_id);
+        console.log('id');
+
+       modal.find('.modal-body #id').val(id);
    })
+    console.log('modal open');
    </script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 @endsection

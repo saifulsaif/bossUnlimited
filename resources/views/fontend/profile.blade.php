@@ -25,13 +25,28 @@
 										<li><img src="{{$profile->photo}}" alt="" />
 										</li>
 								  	</ul>
-
+										@php
+										$user_id=Auth::user()->id;
+										$points = App\Point::where('user_id',$user_id)->first();
+										$money=$points->point/1000;
+									 @endphp
+										<div class="single-product-info" style="margin-top:10px;">
+											<a style="float:right;" href="{{route('update.profile')}}" title=""><i class="la la-edit"></i> 	<span>Update</span></a>
+										</div>
 								</div>
 							</div>
+
 							<div class="col-md-9">
 								<div class="single-product-info">
-									<a style="float:right;" href="{{route('update.profile')}}" title=""><i class="la la-edit"></i> 	<span>Update</span></a>
+									<div class="apply-coupons">
+												<form>
+													<input type="text" placeholder="{{$money}} Taka"readonly>
+													<input type="submit" value="Withdaw Money">
+												</form>
+
+											</div>
 									<h3>{{$profile->first_name}}{{$profile->first_name}}</h3>
+									<h3>User ID : {{$user_id}}</h3>
 									<div class="shop-category">
 										<span>Number</span>
 										<a href="#" title="">{{$profile->number}}</a>
@@ -121,6 +136,15 @@
 								</div>
 							</div>
 							<div class="col-md-12 column">
+								@if ($errors->any())
+							    <div class="alert alert-danger">
+							        <ul>
+							            @foreach ($errors->all() as $error)
+							                <li>{{ $error }}</li>
+							            @endforeach
+							        </ul>
+							    </div>
+							@endif
 								<div class="filter-bar">
 									<span>
 										@php $i=0; @endphp

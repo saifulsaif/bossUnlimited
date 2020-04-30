@@ -16,7 +16,7 @@ class UserController extends Controller
     $user_id=Auth::user()->id;
     $settings = DB::table('settings')->find('1');
     $photos = DB::table('photos')->where('user_id',$user_id)->get();
-    $profile = DB::table('Profiles')->where('user_id',$user_id)->first();
+    $profile = Profile::where('user_id',$user_id)->first();
     return view('fontend.update_profile',compact('settings','photos','profile'));
   }
   public function updateProfileInfo(Request $request)  {
@@ -55,7 +55,9 @@ class UserController extends Controller
     return back();
   }
   public function savePhoto(Request $request)  {
-    // return $request->all();
+   $request->validate([
+       'file' => 'max:1024',
+   ]);
     $user_id=Auth::user()->id;
     $image=$request->file('photo');
     if ($image) {

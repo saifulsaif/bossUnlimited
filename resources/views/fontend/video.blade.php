@@ -19,7 +19,7 @@
 						            <div class="row">
 													@php
 													//Get videos from channel by YouTube Data API
-														$API_key    = 'AIzaSyCwhDHpbVd7byc4p0_1jRVpEYX84GlI52Q';
+														$API_key    = 'AIzaSyB6RdS7l9zyUgwhDqNXQ2qr2J5TIQNbjIs';
 														$channelID  = 'UCqFH5k4uBVijwMSCbApoiJQ';
 														$maxResults = 12;
 

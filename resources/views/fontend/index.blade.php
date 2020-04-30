@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css" /><!-- Style -->
 <link rel="stylesheet" href="{{asset('css/responsive.css')}}" type="text/css" /><!-- Responsive -->
 <link rel="stylesheet" href="{{asset('css/colors/colors.css')}}" type="text/css" /><!-- color -->
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="shortcut icon" type="image/png" href="images/favicon.ico"/>
 <style media="screen">
 	.view-all-blog{
@@ -79,6 +79,15 @@ color: #1a1a1a;
 		background-color:#05a081bd;
 		color:white;
 	}
+	.page-link{
+		border-radius: 50%;
+		background-color: #d90429;
+    border-color: #d90429;
+	}
+	.page-team{
+		background-color: #d90429;
+    border-color: #d90429;
+	}
 </style>
 </head>
 <body>
@@ -86,8 +95,7 @@ color: #1a1a1a;
 	<div class="loadery"></div>
 </div>
 <div class="theme-layout">
-
-
+   
 	  @yield('content')
   @include('fontend.footer')
 

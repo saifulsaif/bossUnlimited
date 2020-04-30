@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-md-4 column">
           <div class="widget">
-            <h3 class="footer-title">PROLIST THEME</h3>
+            <h3 class="footer-title">Free Download Images</h3>
             <div class="about-widget">
               <p>{{$settings->description}}</p>
               <ul>
@@ -20,11 +20,11 @@
         </div>
         <div class="col-md-4 column">
           <div class="widget">
-            <h3 class="footer-title">PROLIST CATEGORIES</h3>
+            <h3 class="footer-title">Images CATEGORIES</h3>
             <div class="link-widget">
               <ul>
-                <li><a href="#" title="">Food & Drink</a></li>
-                <li><a href="#" title="">IT World</a></li>
+                <li><a href="{{route('terms')}}" title="">Terms And Conditions</a></li>
+                <li><a href="{{route('policy')}}" title="">Privacy And Policy</a></li>
                 <li><a href="#" title="">Money & Finance</a></li>
                 <li><a href="#" title="">Movies & Cinemas</a></li>
                 <li><a href="#" title="">Sports</a></li>
@@ -38,6 +38,17 @@
           </div><!-- Widget -->
         </div>
         <div class="col-md-4 column">
+
+          @php
+       	 $prom = App\Promotion::orderBy('id', 'DESC')->first();
+       	 @endphp
+          @if($prom)
+          <div class="fix-div">
+          <a target="_blank" href="{{$prom->link}}">  <img style="height:100%;width:100%;" src="{{asset('/'.$prom->photo)}}" alt=""></a>
+
+          </div>
+          @endif
+
           <div class="widget">
             <h3 class="footer-title">CONTACT INFORMATION</h3>
             <div class="contact-widget">
